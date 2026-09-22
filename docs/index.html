@@ -72,11 +72,44 @@
   .tr .go { color: var(--muted); text-decoration: none; padding: 0 2px; font-size: 13px; }
   .tr .go:hover { color: var(--accent); }
 
-  .bar {
+  .footer {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
-    background: var(--panel); border-top: 1px solid var(--line);
     box-shadow: 0 -6px 24px rgba(0,0,0,.08);
   }
+  .bar { background: var(--panel); border-top: 1px solid var(--line); }
+
+  /* the player */
+  .dock { background: var(--panel); border-top: 1px solid var(--line); padding-top: 10px; }
+  .dockrow { display: flex; align-items: baseline; gap: 10px; padding-bottom: 8px; }
+  .dockrow strong { font-size: 14px; }
+  .dockrow span { color: var(--muted); font-size: 13px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dockrow button { padding: 4px 10px; line-height: 1; }
+  #embed { min-height: 80px; padding-bottom: 10px; }
+  #embed iframe { border: 0; border-radius: 12px; display: block; width: 100%; }
+  body.dock-open { padding-bottom: 300px; }
+
+  /* cover becomes the play control */
+  .cover {
+    position: relative; display: block; width: 100%; padding: 0; border: 0;
+    background: none; cursor: default; font: inherit; color: inherit;
+  }
+  button.cover { cursor: pointer; }
+  .cover .play {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    background: rgba(0,0,0,.34); opacity: 0; transition: opacity .15s;
+  }
+  button.cover:hover .play, button.cover:focus-visible .play { opacity: 1; }
+  .cover .play i {
+    width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,.96);
+    color: #11150f; display: grid; place-items: center; font-style: normal;
+    font-size: 17px; padding-left: 3px;
+  }
+  .tplay {
+    border: 0; background: none; color: var(--muted); cursor: pointer;
+    font-size: 11px; padding: 2px 4px; line-height: 1; border-radius: 4px;
+  }
+  .tplay:hover { color: var(--accent); background: var(--bg); }
+  @media (prefers-reduced-motion: reduce) { .cover .play { transition: none; } }
   .bar .wrap { display: flex; gap: 12px; align-items: center; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; }
   .count { font-weight: 600; }
   .spacer { flex: 1; }
@@ -133,12 +166,22 @@
   </footer>
 </div>
 
-<div class="bar">
-  <div class="wrap">
-    <span class="count" id="count">nothing selected</span>
-    <span class="spacer"></span>
-    <button id="open" disabled title="Opens the album when a whole album is selected, otherwise the first selected track">Open in Spotify</button>
-    <button class="primary" id="create" disabled>Create playlist</button>
+<div class="footer">
+  <div class="dock" id="dock" hidden>
+    <div class="wrap dockrow">
+      <strong id="nowTitle"></strong>
+      <span id="nowSub"></span>
+      <button id="dockClose" title="Close the player">Close</button>
+    </div>
+    <div class="wrap"><div id="embed"></div></div>
+  </div>
+  <div class="bar">
+    <div class="wrap">
+      <span class="count" id="count">nothing selected</span>
+      <span class="spacer"></span>
+      <button id="open" disabled title="Opens the album when a whole album is selected, otherwise the first selected track">Open in Spotify</button>
+      <button class="primary" id="create" disabled>Create playlist</button>
+    </div>
   </div>
 </div>
 
@@ -207,7 +250,7 @@ function albumNode(a, idx) {
   const chosen = a.tracks.filter((t) => picked.has(t.u)).length;
   if (chosen) card.classList.add("on");
 
-  const art = a.art
+  const artInner = a.art
     ? `<img class="art" loading="lazy" src="${a.art}" alt="">`
     : `<div class="art noart">♪</div>`;
 
@@ -218,14 +261,24 @@ function albumNode(a, idx) {
       : kind === "dead"
       ? `<span class="badge b-dead" title="${a.status.replace(/"/g, "")}">not on Spotify</span>` : "";
 
-  card.innerHTML = `
-    ${art}
-    <div class="meta">
+  const cover = document.createElement(a.spotify_id ? "button" : "div");
+  cover.className = "cover";
+  cover.innerHTML = artInner + (a.spotify_id ? `<span class="play"><i>▶</i></span>` : "");
+  if (a.spotify_id) {
+    cover.title = `Play ${a.album}`;
+    cover.setAttribute("aria-label", `Play ${a.album} by ${a.artist}`);
+    cover.onclick = () => playAlbum(a);
+  }
+  card.appendChild(cover);
+
+  const meta = document.createElement("div");
+  meta.className = "meta";
+  meta.innerHTML = `
       <p class="al">${a.album}</p>
       <p class="ar">${a.artist}${a.year ? " · " + a.year : ""}</p>
       <p class="row-tag">${a.tracks.length} track${a.tracks.length === 1 ? "" : "s"}${chosen ? ` · ${chosen} picked` : ""}</p>
-      ${badge}
-    </div>`;
+      ${badge}`;
+  card.appendChild(meta);
 
   const acts = document.createElement("div");
   acts.className = "acts";
@@ -273,11 +326,15 @@ function trackList(a) {
     lab.onclick = () => { cb.checked = !cb.checked; cb.onchange(); };
     const dur = document.createElement("span");
     dur.className = "dur"; dur.textContent = mmss(t.d);
+    const pb = document.createElement("button");
+    pb.className = "tplay"; pb.textContent = "▶";
+    pb.title = "Play this track"; pb.setAttribute("aria-label", `Play ${t.n}`);
+    pb.onclick = () => playTrack(t, a);
     const go = document.createElement("a");
     go.className = "go"; go.textContent = "↗";
     go.href = trackUrl(t.u); go.target = "_blank"; go.rel = "noopener";
     go.title = "Open this track on Spotify";
-    row.append(cb, lab, dur, go);
+    row.append(cb, lab, dur, pb, go);
     box.appendChild(row);
   });
   return box;
@@ -310,6 +367,56 @@ function selectedUris() {
   DATA.albums.forEach((a) => a.tracks.forEach((t) => { if (picked.has(t.u)) order.push(t.u); }));
   return order;
 }
+
+/* ---------- the player ----------
+   Spotify's iFrame API lets a click start playback. If that script is blocked
+   or slow, fall back to a plain embed the visitor presses play on themselves —
+   either way the page makes a noise, which is the point. */
+
+const embedApi = new Promise((resolve) => {
+  window.onSpotifyIframeApiReady = resolve;
+  setTimeout(() => resolve(null), 4000);
+});
+let controller = null;
+
+function showDock(title, sub) {
+  $("#nowTitle").textContent = title;
+  $("#nowSub").textContent = sub;
+  $("#dock").hidden = false;
+  document.body.classList.add("dock-open");
+}
+
+async function play(uri, title, sub) {
+  showDock(title, sub);
+  const API = await embedApi;
+  const host = $("#embed");
+  if (!API) {
+    const [, kind, id] = uri.split(":");
+    host.innerHTML = `<iframe src="https://open.spotify.com/embed/${kind}/${id}" ` +
+      `width="100%" height="152" loading="lazy" ` +
+      `allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
+    return;
+  }
+  if (!controller) {
+    API.createController(host, { uri, width: "100%", height: 152 }, (c) => {
+      controller = c;
+      c.addListener("ready", () => c.play());
+    });
+  } else {
+    controller.loadUri(uri);
+    controller.play();
+  }
+}
+
+const playAlbum = (a) => play(`spotify:album:${a.spotify_id}`, a.album, a.artist);
+const playTrack = (t, a) => play(t.u, t.n, `${t.a} · ${a.album}`);
+
+$("#dockClose").onclick = () => {
+  if (controller) controller.pause();
+  else { const h = $("#embed"); if (h) h.innerHTML = ""; }   // fallback iframe: remove to stop it
+  $("#dock").hidden = true;
+  document.body.classList.remove("dock-open");
+};
 
 /* ---------- Spotify PKCE ---------- */
 
@@ -426,5 +533,7 @@ $("#go").onclick = () => {
   else if (p.get("error")) toast("Spotify denied the request");
 })();
 </script>
+<!-- loaded after the handler above is defined, so the callback is always there -->
+<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 </body>
 </html>

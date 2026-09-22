@@ -139,8 +139,15 @@ absent from the catalogue rather than accepting a near-miss for them.
 ## The app
 
 `docs/index.html` is a single self-contained page — no build step, no
-dependencies. It lets you search across artists, albums and track titles, sort
-by artist or year, and pick whole albums or individual tracks. Then:
+dependencies. **Click any cover and it plays**, in a dock at the bottom of the
+page; the ▶ beside a track plays that track. Playback goes through Spotify's
+embed, so it needs no login: a visitor hears 30-second previews, and anyone
+already signed in to Premium hears whole tracks. The page drives it with
+Spotify's iFrame API so one click starts the music, and falls back to a plain
+embed if that script is unavailable.
+
+It also lets you search across artists, albums and track titles, sort by artist
+or year, and pick whole albums or individual tracks. Then:
 
 - **Open** on any card opens that CD on Spotify, and the ↗ beside any track
   opens that track;
