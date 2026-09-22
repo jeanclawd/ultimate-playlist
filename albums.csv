@@ -1,0 +1,44 @@
+row,artist,album,confidence,notes
+1,Kings of Leon,Only By The Night,high,
+1,Michael Jackson,Number Ones,high,
+1,Justin Timberlake,The 20/20 Experience,high,
+1,Kings of Leon,,artist-only,black spine; title not readable
+1,,,unreadable,~17 cases; thin grey and white spines
+2,Nat King Cole,The Very Best of Nat King Cole,high,
+2,Joshua Radin,We Were Here,high,
+2,Joshua Radin,Underwater,high,
+2,Joshua Radin,Simple Times,high,
+2,Jack Johnson,Sing-A-Longs and Lullabies for the Film Curious George,high,
+2,Bon Jovi,Crush,high,
+2,James Blunt,Moon Landing,medium,"spine reads JAMES BLUNT and MOON"
+2,Bob Dylan,Highway 61 Revisited,high,
+2,The Doors,,artist-only,Elektra release; title not readable
+2,Eminem,The Eminem Show,high,
+2,Phil Collins,...Hits,high,
+2,James Blunt,,artist-only,second James Blunt case
+2,Eminem,,artist-only,second Eminem case
+2,The Beatles,,artist-only,pink spine
+2,Run-D.M.C.,,artist-only,title not readable
+2,,,unreadable,catalogue number 759P-74007-2 only
+2,,,unreadable,~10 cases
+3,Razorlight,,artist-only,no title readable on spine
+3,Ed Sheeran,+ (Plus),high,
+3,Ed Sheeran,x (Multiply),high,
+3,Coldplay,Live 2003,high,
+3,Jack Johnson,Sleep Through the Static,high,
+3,Jack Johnson,On and On,high,
+3,Bob Dylan,The Times They Are A-Changin',high,
+3,David Bowie,ChangesBowie,medium,
+3,Creedence Clearwater Revival,Chronicle,high,
+3,Eagles,Hotel California,high,
+3,Pink Floyd,A Foot in the Door - The Best of Pink Floyd,high,
+3,Simon & Garfunkel,Greatest Hits,high,
+3,The Kooks,,artist-only,title not readable
+3,De Palmas,Les Lois de la Nature,high,
+3,De Palmas,Marcher dans le sable,high,
+3,Various,Country's Greatest Hits,high,box set
+3,Various,The Real... Jazz,high,3 CD
+3,Bob Dylan,The Real... Bob Dylan,high,3 CD
+3,Alicia Keys,Unplugged,high,
+3,Richard David Precht,"Wer bin ich - und wenn ja, wie viele?",high,German audiobook
+3,,,unreadable,~5 cases
