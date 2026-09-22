@@ -522,9 +522,14 @@ $("#go").onclick = () => {
     `<b>${t.tracks}</b> tracks · <b>${fmt(t.duration_ms)}</b>`;
 
   const u = $("#unknown");
-  u.innerHTML = `<summary>${DATA.unidentified.length} spines still unread</summary>` +
+  const named = DATA.unidentified.filter((x) => x.artist).length;
+  const unread = (t.unidentified_discs || DATA.unidentified.length) - named;
+  u.innerHTML =
+    `<summary>${t.unidentified_discs || DATA.unidentified.length} discs still unidentified` +
+    ` — ${named} known by artist, ${unread} unread</summary>` +
     "<ul>" + DATA.unidentified.map((x) =>
-      `<li>${x.artist ? x.artist + " — " : ""}${x.note}</li>`).join("") + "</ul>";
+      `<li>${x.artist ? x.artist + " — " : ""}${x.note}` +
+      `${x.discs > 1 ? ` <b>(${x.discs} cases)</b>` : ""}</li>`).join("") + "</ul>";
 
   render();
 

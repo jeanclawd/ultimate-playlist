@@ -13,6 +13,7 @@ import collections
 import csv
 import json
 import pathlib
+import re
 
 import resolve_spotify as R
 
@@ -43,6 +44,11 @@ def main() -> int:
     DOCS.mkdir(exist_ok=True)
     albums = list(csv.DictReader(open(ROOT / "albums_spotify.csv", encoding="utf-8")))
     tracks = list(csv.DictReader(open(ROOT / "playlist.csv", encoding="utf-8")))
+    # albums_spotify.csv is written row-for-row from albums.csv, so the two line
+    # up by index. The shelf notes ("~10 cases") live only in the source file,
+    # and without them the app undercounts the unread spines badly.
+    shelf = list(csv.DictReader(open(ROOT / "albums.csv", encoding="utf-8")))
+    notes = [r.get("notes", "") for r in shelf] if len(shelf) == len(albums) else [""] * len(albums)
 
     by_album: dict[tuple[str, str], list] = collections.defaultdict(list)
     for t in tracks:
@@ -75,18 +81,34 @@ def main() -> int:
             "tracks": by_album.get((a["artist"], a["album"]), []),
         })
 
+    # One placeholder row can stand for a stack of cases ("~10 cases"), so count
+    # discs, not rows — otherwise the page claims 10 unknowns instead of 23.
+    def discs(note: str) -> int:
+        m = re.search(r"~?(\d+)\s+cases", note or "")
+        return int(m.group(1)) if m else 1
+
+    unknown = []
+    for i, a in enumerate(albums):
+        if a["album"]:
+            continue
+        note = notes[i] or a["status"]
+        unknown.append({
+            "row": int(a["row"]),
+            "artist": a["artist"],
+            "note": note,
+            "discs": discs(note),
+        })
+
     data = {
         "generated": "2026-09-22",
         "albums": out,
-        "unidentified": [
-            {"row": int(a["row"]), "artist": a["artist"], "note": a["status"]}
-            for a in albums if not a["album"]
-        ],
+        "unidentified": unknown,
         "totals": {
             "albums": len(out),
             "with_spotify": sum(1 for a in out if a["spotify_id"]),
             "tracks": sum(len(a["tracks"]) for a in out),
             "duration_ms": sum(t["d"] for a in out for t in a["tracks"]),
+            "unidentified_discs": sum(u["discs"] for u in unknown),
         },
     }
     path = DOCS / "data.json"
