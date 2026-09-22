@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The CD Shelf</title>
+<style>
+  :root {
+    --bg: #fbfaf8; --panel: #ffffff; --ink: #1a1a1a; --muted: #6b6b6b;
+    --line: #e5e2dd; --accent: #1d7a4c; --accent-ink: #ffffff;
+    --warn: #8a6d1f; --warn-bg: #fdf6e3; --dead: #8a3b3b; --dead-bg: #fbeeee;
+    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14150f; --panel: #1d1e19; --ink: #ececea; --muted: #9a9a94;
+      --line: #2e302a; --accent: #4bbd82; --accent-ink: #0d1510;
+      --warn: #d8b75a; --warn-bg: #2a2413; --dead: #e08a8a; --dead-bg: #2b1a1a;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding-bottom: 96px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+  header { padding: 40px 0 20px; }
+  h1 { margin: 0 0 6px; font-size: 30px; letter-spacing: -.02em; }
+  .sub { color: var(--muted); margin: 0; }
+  .sub b { color: var(--ink); font-weight: 600; }
+
+  .controls {
+    position: sticky; top: 0; z-index: 20; background: var(--bg);
+    padding: 14px 0; border-bottom: 1px solid var(--line);
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  }
+  input[type=search], select, button {
+    font: inherit; color: var(--ink); background: var(--panel);
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px;
+  }
+  input[type=search] { flex: 1 1 240px; min-width: 0; }
+  button { cursor: pointer; }
+  button:hover { border-color: var(--muted); }
+  button.primary { background: var(--accent); color: var(--accent-ink); border-color: transparent; font-weight: 600; }
+  button.primary:disabled { opacity: .45; cursor: not-allowed; }
+
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); margin: 22px 0; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column;
+  }
+  .card.on { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset, var(--shadow); }
+  .art { aspect-ratio: 1; width: 100%; object-fit: cover; background: var(--line); display: block; }
+  .noart { display: grid; place-items: center; color: var(--muted); font-size: 34px; }
+  .meta { padding: 12px 13px; flex: 1; }
+  .al { font-weight: 600; margin: 0 0 2px; }
+  .ar { color: var(--muted); margin: 0; font-size: 14px; }
+  .row-tag { color: var(--muted); font-size: 12px; margin-top: 6px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 7px; border-radius: 999px; margin-top: 8px; }
+  .b-sub { background: var(--warn-bg); color: var(--warn); }
+  .b-dead { background: var(--dead-bg); color: var(--dead); }
+  .acts { display: flex; gap: 8px; padding: 0 13px 13px; }
+  .acts button { flex: 1; padding: 7px 8px; font-size: 13px; }
+
+  .tracks { border-top: 1px solid var(--line); max-height: 280px; overflow: auto; }
+  .tr { display: flex; gap: 9px; align-items: center; padding: 6px 13px; font-size: 13px; }
+  .tr:hover { background: var(--bg); }
+  .tr label { flex: 1; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tr .dur { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px; }
+
+  .bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    background: var(--panel); border-top: 1px solid var(--line);
+    box-shadow: 0 -6px 24px rgba(0,0,0,.08);
+  }
+  .bar .wrap { display: flex; gap: 12px; align-items: center; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; }
+  .count { font-weight: 600; }
+  .spacer { flex: 1; }
+  details.unknown { margin: 28px 0; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  details.unknown summary { cursor: pointer; font-weight: 600; }
+  details.unknown li { color: var(--muted); }
+  dialog {
+    border: 1px solid var(--line); border-radius: 14px; background: var(--panel); color: var(--ink);
+    max-width: 520px; padding: 22px; box-shadow: var(--shadow);
+  }
+  dialog::backdrop { background: rgba(0,0,0,.45); }
+  dialog h3 { margin: 0 0 10px; }
+  dialog p, dialog li { color: var(--muted); font-size: 14px; }
+  dialog code { background: var(--bg); padding: 2px 6px; border-radius: 5px; color: var(--ink); font-size: 13px; }
+  dialog input { width: 100%; margin: 10px 0 14px; }
+  .toast {
+    position: fixed; bottom: 92px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 8px;
+    opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 40; font-size: 14px;
+  }
+  .toast.show { opacity: 1; }
+  footer { color: var(--muted); font-size: 13px; padding: 30px 0; border-top: 1px solid var(--line); margin-top: 30px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>The CD Shelf</h1>
+    <p class="sub" id="totals">loading…</p>
+  </header>
+</div>
+
+<div class="controls">
+  <div class="wrap" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;width:100%">
+    <input type="search" id="q" placeholder="Search artist, album or track…" autocomplete="off">
+    <select id="row">
+      <option value="">All three rows</option>
+      <option value="1">Top row</option>
+      <option value="2">Middle row</option>
+      <option value="3">Bottom row</option>
+    </select>
+    <select id="sort">
+      <option value="shelf">Shelf order</option>
+      <option value="artist">By artist</option>
+      <option value="year">By year</option>
+    </select>
+    <button id="selAll">Select all shown</button>
+    <button id="clear">Clear</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="grid" id="grid"></div>
+  <details class="unknown" id="unknown"></details>
+  <footer>
+    Transcribed from a photo of the shelf, then resolved against the Spotify
+    catalogue. Source and scripts:
+    <a href="https://github.com/jeanclawd/ultimate-playlist">jeanclawd/ultimate-playlist</a>.
+  </footer>
+</div>
+
+<div class="bar">
+  <div class="wrap">
+    <span class="count" id="count">nothing selected</span>
+    <span class="spacer"></span>
+    <button id="copy">Copy URIs</button>
+    <button id="dl">Download .txt</button>
+    <button class="primary" id="create" disabled>Create on Spotify</button>
+  </div>
+</div>
+
+<dialog id="setup">
+  <h3>Connect Spotify</h3>
+  <p>Creating a playlist needs your approval. This uses PKCE, so only a
+     <b>client ID</b> is required — no secret, and nothing leaves your browser
+     except the request to Spotify.</p>
+  <p>In your Spotify app settings, add this exact redirect URI:</p>
+  <p><code id="redir"></code></p>
+  <input id="cid" placeholder="Spotify client ID" autocomplete="off">
+  <div style="display:flex;gap:8px;justify-content:flex-end">
+    <button id="cancel">Cancel</button>
+    <button class="primary" id="go">Connect</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const AUTH = "https://accounts.spotify.com/authorize";
+const TOKEN = "https://accounts.spotify.com/api/token";
+const API = "https://api.spotify.com/v1";
+const SCOPES = "playlist-modify-private playlist-modify-public";
+const redirectUri = location.origin + location.pathname;
+
+let DATA = null;
+const picked = new Set();          // track URIs
+
+const $ = (s) => document.querySelector(s);
+const fmt = (ms) => {
+  const s = Math.round(ms / 1000), h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
+  return h ? `${h}h${String(m).padStart(2, "0")}m` : `${m}m`;
+};
+const mmss = (ms) => {
+  const s = Math.round(ms / 1000);
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+};
+function toast(msg) {
+  const t = $("#toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._id); t._id = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+/* ---------- rendering ---------- */
+
+function visible() {
+  const q = $("#q").value.trim().toLowerCase();
+  const row = $("#row").value;
+  let list = DATA.albums.filter((a) => {
+    if (row && String(a.row) !== row) return false;
+    if (!q) return true;
+    if ((a.artist + " " + a.album).toLowerCase().includes(q)) return true;
+    return a.tracks.some((t) => t.n.toLowerCase().includes(q));
+  });
+  const sort = $("#sort").value;
+  if (sort === "artist") list = [...list].sort((x, y) => x.artist.localeCompare(y.artist) || x.album.localeCompare(y.album));
+  if (sort === "year") list = [...list].sort((x, y) => (x.year || "9999").localeCompare(y.year || "9999"));
+  return list;
+}
+
+function albumNode(a, idx) {
+  const card = document.createElement("div");
+  card.className = "card";
+  const chosen = a.tracks.filter((t) => picked.has(t.u)).length;
+  if (chosen) card.classList.add("on");
+
+  const art = a.art
+    ? `<img class="art" loading="lazy" src="${a.art}" alt="">`
+    : `<div class="art noart">♪</div>`;
+
+  const kind = a.status.startsWith("substitute") ? "sub"
+             : a.status.startsWith("not on Spotify") ? "dead" : "";
+  const badge = kind === "sub"
+      ? `<span class="badge b-sub" title="${a.status.replace(/"/g, "")}">substitute: ${a.spotify_album}</span>`
+      : kind === "dead"
+      ? `<span class="badge b-dead" title="${a.status.replace(/"/g, "")}">not on Spotify</span>` : "";
+
+  const rowName = { 1: "Top row", 2: "Middle row", 3: "Bottom row" }[a.row];
+  card.innerHTML = `
+    ${art}
+    <div class="meta">
+      <p class="al">${a.album}</p>
+      <p class="ar">${a.artist}${a.year ? " · " + a.year : ""}</p>
+      <p class="row-tag">${rowName} · ${a.tracks.length} track${a.tracks.length === 1 ? "" : "s"}${chosen ? ` · ${chosen} picked` : ""}</p>
+      ${badge}
+    </div>`;
+
+  if (a.tracks.length) {
+    const acts = document.createElement("div");
+    acts.className = "acts";
+    const bAll = document.createElement("button");
+    bAll.textContent = chosen === a.tracks.length ? "Deselect" : "Select album";
+    bAll.onclick = () => {
+      const all = a.tracks.every((t) => picked.has(t.u));
+      a.tracks.forEach((t) => all ? picked.delete(t.u) : picked.add(t.u));
+      render();
+    };
+    const bTr = document.createElement("button");
+    bTr.textContent = "Tracks";
+    bTr.onclick = () => {
+      const open = card.querySelector(".tracks");
+      if (open) { open.remove(); return; }
+      card.appendChild(trackList(a));
+    };
+    acts.append(bAll, bTr);
+    card.appendChild(acts);
+  }
+  return card;
+}
+
+function trackList(a) {
+  const box = document.createElement("div");
+  box.className = "tracks";
+  a.tracks.forEach((t, i) => {
+    const row = document.createElement("div");
+    row.className = "tr";
+    const cb = document.createElement("input");
+    cb.type = "checkbox"; cb.checked = picked.has(t.u);
+    cb.onchange = () => { cb.checked ? picked.add(t.u) : picked.delete(t.u); refreshBar(); };
+    const lab = document.createElement("label");
+    lab.textContent = `${i + 1}. ${t.n}`;
+    lab.title = `${t.a} — ${t.n}`;
+    lab.onclick = () => { cb.checked = !cb.checked; cb.onchange(); };
+    const dur = document.createElement("span");
+    dur.className = "dur"; dur.textContent = mmss(t.d);
+    row.append(cb, lab, dur);
+    box.appendChild(row);
+  });
+  return box;
+}
+
+function refreshBar() {
+  const all = DATA.albums.flatMap((a) => a.tracks);
+  const chosen = all.filter((t) => picked.has(t.u));
+  const ms = chosen.reduce((s, t) => s + t.d, 0);
+  $("#count").textContent = chosen.length
+    ? `${chosen.length} track${chosen.length === 1 ? "" : "s"} · ${fmt(ms)}`
+    : "nothing selected";
+  $("#create").disabled = chosen.length === 0;
+}
+
+function render() {
+  const grid = $("#grid");
+  grid.innerHTML = "";
+  const list = visible();
+  list.forEach((a, i) => grid.appendChild(albumNode(a, i)));
+  if (!list.length) grid.innerHTML = `<p class="sub">Nothing matches that search.</p>`;
+  refreshBar();
+}
+
+/* ---------- selection helpers ---------- */
+
+function selectedUris() {
+  const order = [];
+  DATA.albums.forEach((a) => a.tracks.forEach((t) => { if (picked.has(t.u)) order.push(t.u); }));
+  return order;
+}
+
+/* ---------- Spotify PKCE ---------- */
+
+const b64url = (buf) => btoa(String.fromCharCode(...new Uint8Array(buf)))
+  .replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+
+async function challenge(verifier) {
+  return b64url(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier)));
+}
+
+async function connect(clientId) {
+  const verifier = b64url(crypto.getRandomValues(new Uint8Array(48)));
+  const state = b64url(crypto.getRandomValues(new Uint8Array(12)));
+  sessionStorage.setItem("pkce_verifier", verifier);
+  sessionStorage.setItem("pkce_state", state);
+  sessionStorage.setItem("pending_uris", JSON.stringify(selectedUris()));
+  localStorage.setItem("spotify_client_id", clientId);
+  const p = new URLSearchParams({
+    client_id: clientId, response_type: "code", redirect_uri: redirectUri,
+    scope: SCOPES, code_challenge_method: "S256",
+    code_challenge: await challenge(verifier), state,
+  });
+  location.href = `${AUTH}?${p}`;
+}
+
+async function finishAuth(code, state) {
+  if (state !== sessionStorage.getItem("pkce_state")) { toast("State mismatch — start again"); return; }
+  const clientId = localStorage.getItem("spotify_client_id");
+  const body = new URLSearchParams({
+    grant_type: "authorization_code", code, redirect_uri: redirectUri,
+    client_id: clientId, code_verifier: sessionStorage.getItem("pkce_verifier"),
+  });
+  const r = await fetch(TOKEN, {
+    method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body,
+  });
+  if (!r.ok) { toast("Token exchange failed"); return; }
+  const { access_token } = await r.json();
+  const uris = JSON.parse(sessionStorage.getItem("pending_uris") || "[]");
+  history.replaceState({}, "", redirectUri);
+  if (!uris.length) { toast("Connected — pick some tracks"); return; }
+  await createPlaylist(access_token, uris);
+}
+
+async function createPlaylist(token, uris) {
+  const h = { Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
+  toast("Creating playlist…");
+  const me = await (await fetch(`${API}/me`, { headers: h })).json();
+  const name = `The CD Shelf — ${new Date().toLocaleDateString()}`;
+  const pl = await (await fetch(`${API}/users/${me.id}/playlists`, {
+    method: "POST", headers: h,
+    body: JSON.stringify({ name, public: false, description: "Built from the CD shelf" }),
+  })).json();
+  for (let i = 0; i < uris.length; i += 100) {
+    await fetch(`${API}/playlists/${pl.id}/tracks`, {
+      method: "POST", headers: h, body: JSON.stringify({ uris: uris.slice(i, i + 100) }),
+    });
+  }
+  toast(`Created "${name}" — ${uris.length} tracks`);
+  window.open(pl.external_urls.spotify, "_blank");
+}
+
+/* ---------- wiring ---------- */
+
+$("#q").oninput = render;
+$("#row").onchange = render;
+$("#sort").onchange = render;
+$("#selAll").onclick = () => { visible().forEach((a) => a.tracks.forEach((t) => picked.add(t.u))); render(); };
+$("#clear").onclick = () => { picked.clear(); render(); };
+
+$("#copy").onclick = async () => {
+  const u = selectedUris();
+  if (!u.length) { toast("Nothing selected"); return; }
+  try { await navigator.clipboard.writeText(u.join("\n")); toast(`Copied ${u.length} URIs`); }
+  catch { toast("Clipboard blocked — use Download"); }
+};
+
+$("#dl").onclick = () => {
+  const u = selectedUris();
+  if (!u.length) { toast("Nothing selected"); return; }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([u.join("\n")], { type: "text/plain" }));
+  a.download = "playlist_uris.txt"; a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+$("#create").onclick = () => {
+  $("#redir").textContent = redirectUri;
+  $("#cid").value = localStorage.getItem("spotify_client_id") || "";
+  $("#setup").showModal();
+};
+$("#cancel").onclick = () => $("#setup").close();
+$("#go").onclick = () => {
+  const id = $("#cid").value.trim();
+  if (!id) { toast("A client ID is needed"); return; }
+  $("#setup").close();
+  connect(id);
+};
+
+/* ---------- boot ---------- */
+
+(async function () {
+  DATA = await (await fetch("data.json")).json();
+  const t = DATA.totals;
+  $("#totals").innerHTML =
+    `<b>${t.albums}</b> albums read off the shelf · <b>${t.with_spotify}</b> found on Spotify · ` +
+    `<b>${t.tracks}</b> tracks · <b>${fmt(t.duration_ms)}</b>`;
+
+  const u = $("#unknown");
+  u.innerHTML = `<summary>${DATA.unidentified.length} spines still unread</summary>` +
+    "<ul>" + DATA.unidentified.map((x) =>
+      `<li>${x.artist ? x.artist + " — " : ""}${x.note}</li>`).join("") + "</ul>";
+
+  render();
+
+  const p = new URLSearchParams(location.search);
+  if (p.get("code")) finishAuth(p.get("code"), p.get("state"));
+  else if (p.get("error")) toast("Spotify denied the request");
+})();
+</script>
+</body>
+</html>

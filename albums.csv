@@ -2,8 +2,19 @@ row,artist,album,confidence,notes
 1,Kings of Leon,Only By The Night,high,
 1,Michael Jackson,Number Ones,high,
 1,Justin Timberlake,The 20/20 Experience,high,
-1,Kings of Leon,,artist-only,black spine; title not readable
-1,,,unreadable,~17 cases; thin grey and white spines
+1,Kaiser Chiefs,"Yours Truly, Angry Mob",operator-supplied,
+1,Bruno Mars,Doo-Wops & Hooligans,operator-supplied,
+1,Kings of Leon,Youth and Young Manhood,operator-supplied,resolves the artist-only spine read from the photo
+1,Selena Gomez,Revival,operator-supplied,
+1,Queen,Greatest Hits II,operator-supplied,
+1,fun.,Some Nights,operator-supplied,
+1,Florence + The Machine,Ceremonials,operator-supplied,
+1,Snow Patrol,Up to Now,operator-supplied,
+1,Kanye West,Late Registration,operator-supplied,
+1,Maroon 5,It Won't Be Soon Before Long,operator-supplied,
+1,Maroon 5,Songs About Jane,operator-supplied,
+1,Maroon 5,Red Pill Blues,operator-supplied,
+1,Maroon 5,Overexposed,operator-supplied,
 2,Nat King Cole,The Very Best of Nat King Cole,high,
 2,Joshua Radin,We Were Here,high,
 2,Joshua Radin,Underwater,high,
