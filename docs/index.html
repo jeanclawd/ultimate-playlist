@@ -69,6 +69,8 @@
   .tr:hover { background: var(--bg); }
   .tr label { flex: 1; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .tr .dur { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px; }
+  .tr .go { color: var(--muted); text-decoration: none; padding: 0 2px; font-size: 13px; }
+  .tr .go:hover { color: var(--accent); }
 
   .bar {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
@@ -112,14 +114,7 @@
 <div class="controls">
   <div class="wrap" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;width:100%">
     <input type="search" id="q" placeholder="Search artist, album or track…" autocomplete="off">
-    <select id="row">
-      <option value="">All three rows</option>
-      <option value="1">Top row</option>
-      <option value="2">Middle row</option>
-      <option value="3">Bottom row</option>
-    </select>
     <select id="sort">
-      <option value="shelf">Shelf order</option>
       <option value="artist">By artist</option>
       <option value="year">By year</option>
     </select>
@@ -142,9 +137,8 @@
   <div class="wrap">
     <span class="count" id="count">nothing selected</span>
     <span class="spacer"></span>
-    <button id="copy">Copy URIs</button>
-    <button id="dl">Download .txt</button>
-    <button class="primary" id="create" disabled>Create on Spotify</button>
+    <button id="open" disabled title="Opens the album when a whole album is selected, otherwise the first selected track">Open in Spotify</button>
+    <button class="primary" id="create" disabled>Create playlist</button>
   </div>
 </div>
 
@@ -191,11 +185,12 @@ function toast(msg) {
 
 /* ---------- rendering ---------- */
 
+const albumUrl = (a) => `https://open.spotify.com/album/${a.spotify_id}`;
+const trackUrl = (uri) => `https://open.spotify.com/track/${uri.split(":").pop()}`;
+
 function visible() {
   const q = $("#q").value.trim().toLowerCase();
-  const row = $("#row").value;
   let list = DATA.albums.filter((a) => {
-    if (row && String(a.row) !== row) return false;
     if (!q) return true;
     if ((a.artist + " " + a.album).toLowerCase().includes(q)) return true;
     return a.tracks.some((t) => t.n.toLowerCase().includes(q));
@@ -223,19 +218,19 @@ function albumNode(a, idx) {
       : kind === "dead"
       ? `<span class="badge b-dead" title="${a.status.replace(/"/g, "")}">not on Spotify</span>` : "";
 
-  const rowName = { 1: "Top row", 2: "Middle row", 3: "Bottom row" }[a.row];
   card.innerHTML = `
     ${art}
     <div class="meta">
       <p class="al">${a.album}</p>
       <p class="ar">${a.artist}${a.year ? " · " + a.year : ""}</p>
-      <p class="row-tag">${rowName} · ${a.tracks.length} track${a.tracks.length === 1 ? "" : "s"}${chosen ? ` · ${chosen} picked` : ""}</p>
+      <p class="row-tag">${a.tracks.length} track${a.tracks.length === 1 ? "" : "s"}${chosen ? ` · ${chosen} picked` : ""}</p>
       ${badge}
     </div>`;
 
+  const acts = document.createElement("div");
+  acts.className = "acts";
+
   if (a.tracks.length) {
-    const acts = document.createElement("div");
-    acts.className = "acts";
     const bAll = document.createElement("button");
     bAll.textContent = chosen === a.tracks.length ? "Deselect" : "Select album";
     bAll.onclick = () => {
@@ -246,13 +241,20 @@ function albumNode(a, idx) {
     const bTr = document.createElement("button");
     bTr.textContent = "Tracks";
     bTr.onclick = () => {
-      const open = card.querySelector(".tracks");
-      if (open) { open.remove(); return; }
+      const shown = card.querySelector(".tracks");
+      if (shown) { shown.remove(); return; }
       card.appendChild(trackList(a));
     };
     acts.append(bAll, bTr);
-    card.appendChild(acts);
   }
+  if (a.spotify_id) {
+    const bOpen = document.createElement("button");
+    bOpen.textContent = "Open";
+    bOpen.title = "Open this CD on Spotify";
+    bOpen.onclick = () => window.open(albumUrl(a), "_blank", "noopener");
+    acts.appendChild(bOpen);
+  }
+  if (acts.children.length) card.appendChild(acts);
   return card;
 }
 
@@ -271,7 +273,11 @@ function trackList(a) {
     lab.onclick = () => { cb.checked = !cb.checked; cb.onchange(); };
     const dur = document.createElement("span");
     dur.className = "dur"; dur.textContent = mmss(t.d);
-    row.append(cb, lab, dur);
+    const go = document.createElement("a");
+    go.className = "go"; go.textContent = "↗";
+    go.href = trackUrl(t.u); go.target = "_blank"; go.rel = "noopener";
+    go.title = "Open this track on Spotify";
+    row.append(cb, lab, dur, go);
     box.appendChild(row);
   });
   return box;
@@ -285,6 +291,7 @@ function refreshBar() {
     ? `${chosen.length} track${chosen.length === 1 ? "" : "s"} · ${fmt(ms)}`
     : "nothing selected";
   $("#create").disabled = chosen.length === 0;
+  $("#open").disabled = chosen.length === 0;
 }
 
 function render() {
@@ -367,25 +374,22 @@ async function createPlaylist(token, uris) {
 /* ---------- wiring ---------- */
 
 $("#q").oninput = render;
-$("#row").onchange = render;
 $("#sort").onchange = render;
 $("#selAll").onclick = () => { visible().forEach((a) => a.tracks.forEach((t) => picked.add(t.u))); render(); };
 $("#clear").onclick = () => { picked.clear(); render(); };
 
-$("#copy").onclick = async () => {
-  const u = selectedUris();
-  if (!u.length) { toast("Nothing selected"); return; }
-  try { await navigator.clipboard.writeText(u.join("\n")); toast(`Copied ${u.length} URIs`); }
-  catch { toast("Clipboard blocked — use Download"); }
-};
-
-$("#dl").onclick = () => {
-  const u = selectedUris();
-  if (!u.length) { toast("Nothing selected"); return; }
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([u.join("\n")], { type: "text/plain" }));
-  a.download = "playlist_uris.txt"; a.click();
-  URL.revokeObjectURL(a.href);
+$("#open").onclick = () => {
+  const uris = selectedUris();
+  if (!uris.length) { toast("Nothing selected"); return; }
+  // A whole album selected, and nothing else, opens as the album.
+  const owning = DATA.albums.filter((a) => a.tracks.some((t) => picked.has(t.u)));
+  if (owning.length === 1 && owning[0].spotify_id &&
+      owning[0].tracks.every((t) => picked.has(t.u))) {
+    window.open(albumUrl(owning[0]), "_blank", "noopener");
+    return;
+  }
+  window.open(trackUrl(uris[0]), "_blank", "noopener");
+  if (uris.length > 1) toast("Opened the first selected track");
 };
 
 $("#create").onclick = () => {

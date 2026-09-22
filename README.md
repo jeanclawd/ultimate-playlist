@@ -139,12 +139,14 @@ absent from the catalogue rather than accepting a near-miss for them.
 ## The app
 
 `docs/index.html` is a single self-contained page — no build step, no
-dependencies. It lets you browse the shelf by row, search across artists,
-albums and track titles, pick whole albums or individual tracks, and then
+dependencies. It lets you search across artists, albums and track titles, sort
+by artist or year, and pick whole albums or individual tracks. Then:
 
-- copy the selected track URIs,
-- download them as a text file, or
-- create the playlist directly on your Spotify account.
+- **Open** on any card opens that CD on Spotify, and the ↗ beside any track
+  opens that track;
+- **Open in Spotify** opens the selection — the album when a whole album is
+  selected and nothing else, otherwise the first selected track;
+- **Create playlist** builds the whole selection on your Spotify account.
 
 That last one uses the PKCE flow, so it needs only a **client ID** — no secret
 is involved and nothing is stored anywhere but your own browser. Add the page's
