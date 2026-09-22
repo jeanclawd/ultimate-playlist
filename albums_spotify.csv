@@ -1,0 +1,44 @@
+row,artist,album,shelf_confidence,spotify_album_id,spotify_uri,spotify_artist,spotify_album,release_date,total_tracks,match_score,status
+1,Kings of Leon,Only By The Night,high,5CZR6ljD0x9fTiS4mh9wMp,spotify:album:5CZR6ljD0x9fTiS4mh9wMp,Kings of Leon,Only By The Night,2008-09-23,11,1.00,matched
+1,Michael Jackson,Number Ones,high,1jcYwZsN7JEve9xsq9BuUX,spotify:album:1jcYwZsN7JEve9xsq9BuUX,Michael Jackson,Number Ones,2003-11-17,18,1.00,matched
+1,Justin Timberlake,The 20/20 Experience,high,0O82niJ0NpcptYRxogeEZu,spotify:album:0O82niJ0NpcptYRxogeEZu,Justin Timberlake,The 20/20 Experience (Deluxe Version),2013-03-15,12,1.00,matched
+1,Kings of Leon,,artist-only,,,,,,,,artist only — needs a closer photo
+1,,,unreadable,,,,,,,,unreadable spine
+2,Nat King Cole,The Very Best of Nat King Cole,high,3NoP1ifIejWkGSDsO9T2xH,spotify:album:3NoP1ifIejWkGSDsO9T2xH,Nat King Cole,The Nat King Cole Story,1961-09-25,36,1.00,substitute — this compilation is absent from the FR catalogue
+2,Joshua Radin,We Were Here,high,3kJxji4lJkuzZJSTWFbNnG,spotify:album:3kJxji4lJkuzZJSTWFbNnG,Joshua Radin,We Were Here,2006,12,1.00,matched
+2,Joshua Radin,Underwater,high,2MmCoSoZX95mcdygcHivFo,spotify:album:2MmCoSoZX95mcdygcHivFo,Joshua Radin,Underwater (Deluxe),2012-05-30,16,1.00,matched
+2,Joshua Radin,Simple Times,high,26awSC8fOGPs7Ti6Zug71w,spotify:album:26awSC8fOGPs7Ti6Zug71w,Joshua Radin,Simple Times,2008-09-30,11,1.00,matched
+2,Jack Johnson,Sing-A-Longs and Lullabies for the Film Curious George,high,0kYv61g7n6ZPe2TVaIBeeJ,spotify:album:0kYv61g7n6ZPe2TVaIBeeJ,Jack Johnson,Sing-A-Longs & Lullabies For The Film Curious George,2006,14,1.00,matched
+2,Bon Jovi,Crush,high,0Q9SljCrM0CL0bR23MuP69,spotify:album:0Q9SljCrM0CL0bR23MuP69,Bon Jovi,Crush,2000-01-01,12,1.00,matched
+2,James Blunt,Moon Landing,medium,4Sj9XfiPLf5byGh7u2ZU7g,spotify:album:4Sj9XfiPLf5byGh7u2ZU7g,James Blunt,Moon Landing,2013-10-04,11,1.00,matched
+2,Bob Dylan,Highway 61 Revisited,high,6YabPKtZAjxwyWbuO9p4ZD,spotify:album:6YabPKtZAjxwyWbuO9p4ZD,Bob Dylan,Highway 61 Revisited,1965-08-30,9,1.00,matched
+2,The Doors,,artist-only,,,,,,,,artist only — needs a closer photo
+2,Eminem,The Eminem Show,high,2cWBwpqMsDJC1ZUwz813lo,spotify:album:2cWBwpqMsDJC1ZUwz813lo,Eminem,The Eminem Show,2002-05-26,20,1.00,matched
+2,Phil Collins,...Hits,high,5HgotyRoL2KtJElB8fBToi,spotify:album:5HgotyRoL2KtJElB8fBToi,Phil Collins,The Singles,2016-10-14,33,1.00,substitute — 1998 compilation absent from the FR catalogue
+2,James Blunt,,artist-only,,,,,,,,artist only — needs a closer photo
+2,Eminem,,artist-only,,,,,,,,artist only — needs a closer photo
+2,The Beatles,,artist-only,,,,,,,,artist only — needs a closer photo
+2,Run-D.M.C.,,artist-only,,,,,,,,artist only — needs a closer photo
+2,,,unreadable,,,,,,,,unreadable spine
+2,,,unreadable,,,,,,,,unreadable spine
+3,Razorlight,,artist-only,,,,,,,,artist only — needs a closer photo
+3,Ed Sheeran,+ (Plus),high,02pi98kE0nra0yBqCStzbC,spotify:album:02pi98kE0nra0yBqCStzbC,Ed Sheeran,+,2011-09-09,16,1.00,matched
+3,Ed Sheeran,x (Multiply),high,1xn54DMo2qIqBuMqHtUsFd,spotify:album:1xn54DMo2qIqBuMqHtUsFd,Ed Sheeran,x (Deluxe Edition),2014-06-21,16,1.00,matched
+3,Coldplay,Live 2003,high,3JMOZD2qixTTLRW9I6JuF4,spotify:album:3JMOZD2qixTTLRW9I6JuF4,Coldplay,Live 2003,2003-11-01,12,1.00,matched
+3,Jack Johnson,Sleep Through the Static,high,3fa8r86AofGDNs1S2d3xgz,spotify:album:3fa8r86AofGDNs1S2d3xgz,Jack Johnson,Sleep Through The Static,2008,14,1.00,matched
+3,Jack Johnson,On and On,high,7LQhG0xSDjFiKJnziyB3Zj,spotify:album:7LQhG0xSDjFiKJnziyB3Zj,Jack Johnson,On And On,2003-01-01,16,1.00,matched
+3,Bob Dylan,The Times They Are A-Changin',high,7DZeLXvr9eTVpyI1OlqtcS,spotify:album:7DZeLXvr9eTVpyI1OlqtcS,Bob Dylan,The Times They Are A-Changin',1964-01-13,10,1.00,matched
+3,David Bowie,ChangesBowie,medium,3aGkjugjzDWaETRbbRafoF,spotify:album:3aGkjugjzDWaETRbbRafoF,David Bowie,ChangesOneBowie,1976,11,1.00,substitute — 1990 compilation absent; only ChangesOne/Two/NowBowie are there
+3,Creedence Clearwater Revival,Chronicle,high,03GKkfyog7hnllilFS3jIV,spotify:album:03GKkfyog7hnllilFS3jIV,Creedence Clearwater Revival,Chronicle: 20 Greatest Hits,1976-01-01,20,1.00,matched
+3,Eagles,Hotel California,high,2widuo17g5CEC66IbzveRu,spotify:album:2widuo17g5CEC66IbzveRu,Eagles,Hotel California (2013 Remaster),1976-12-08,9,0.95,matched
+3,Pink Floyd,A Foot in the Door - The Best of Pink Floyd,high,53eu9AgHyg3eQNUiePWRHD,spotify:album:53eu9AgHyg3eQNUiePWRHD,Pink Floyd,A Foot in the Door: The Best of Pink Floyd,2011,16,1.00,matched
+3,Simon & Garfunkel,Greatest Hits,high,4Em5W5HgYEvhpc2elrpKES,spotify:album:4Em5W5HgYEvhpc2elrpKES,Simon & Garfunkel,Greatest Hits,1972-06-14,14,1.00,matched
+3,The Kooks,,artist-only,,,,,,,,artist only — needs a closer photo
+3,De Palmas,Les Lois de la Nature,high,56sR7RPS5QQgI1XMOfRoPn,spotify:album:56sR7RPS5QQgI1XMOfRoPn,De Palmas,Les Lois De La Nature,1997,12,1.00,matched
+3,De Palmas,Marcher dans le sable,high,7669yAkyDYTr33Hc0cAdhn,spotify:album:7669yAkyDYTr33Hc0cAdhn,De Palmas,Marcher Dans Le Sable,2000-01-01,12,1.00,matched
+3,Various,Country's Greatest Hits,high,3mKofmWfsTYIWMREOca6Xm,spotify:album:3mKofmWfsTYIWMREOca6Xm,Various Artists,Country's Greatest Hits,2023-09-22,75,1.00,matched
+3,Various,The Real... Jazz,high,,,,,,,,not on Spotify — Sony 'The Real...' box set not on Spotify
+3,Bob Dylan,The Real... Bob Dylan,high,1y3abw64BlSEeFuuhjlke1,spotify:album:1y3abw64BlSEeFuuhjlke1,Bob Dylan,The Essential Bob Dylan,2014-03-25,32,1.00,substitute — Sony 'The Real...' box set not on Spotify
+3,Alicia Keys,Unplugged,high,4KCe4KPxUSyKPLu5a6mDVg,spotify:album:4KCe4KPxUSyKPLu5a6mDVg,Alicia Keys,Unplugged,2005-10-11,16,1.00,matched
+3,Richard David Precht,"Wer bin ich - und wenn ja, wie viele?",high,,,,,,,,"not on Spotify — audiobook, not in the music catalogue"
+3,,,unreadable,,,,,,,,unreadable spine

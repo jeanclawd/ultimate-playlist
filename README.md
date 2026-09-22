@@ -8,6 +8,25 @@ rest are legible only as a coloured spine — the
 thin grey and white cases in the top row especially — and are listed as
 unreadable rather than guessed at. Books share the shelf and are not included.
 
+## Files
+
+| file | what it is |
+|---|---|
+| `albums.csv` | the shelf as read from the photo, with a confidence column |
+| `albums_spotify.csv` | the same albums resolved to Spotify album IDs |
+| `playlist.csv` | every track of every resolved album, with its track URI |
+| `playlist_uris.txt` | just the URIs — what an "add to playlist" call wants |
+| `resolve_spotify.py` | album → Spotify ID, via the Client Credentials flow |
+| `build_playlist.py` | albums → track list |
+| `create_playlist.py` | writes the playlist to your account (needs your approval once) |
+
+Credentials live in `.env`, which is gitignored and must stay that way:
+
+```
+client_id=...
+client_secret=...
+```
+
 ## Row 1 — top row of cases
 
 | # | Artist | Album |
@@ -74,6 +93,53 @@ Plus roughly **5 unreadable**.
 | identified by artist only | 8 |
 | unreadable | ~33 |
 | **total on the shelf** | **~74** |
+
+## On Spotify
+
+All 31 album entries were looked up in the catalogue (French market).
+
+| outcome | albums |
+|---|---|
+| matched | 25 |
+| substituted — the exact release is not on Spotify | 4 |
+| not on Spotify at all | 2 |
+| **expanded into tracks** | **29 albums · 516 tracks · 33h58m** |
+
+The four substitutions, each checked by hand rather than settled for by the
+matcher:
+
+| on the shelf | on Spotify instead | why |
+|---|---|---|
+| Nat King Cole — The Very Best of Nat King Cole | The Nat King Cole Story | that compilation is absent |
+| Phil Collins — …Hits | The Singles | the 1998 compilation is absent |
+| David Bowie — ChangesBowie | ChangesOneBowie | only the One/Two/Now editions are there |
+| Bob Dylan — The Real… Bob Dylan | The Essential Bob Dylan | the Sony box set is absent |
+
+Not available in any form: **The Real… Jazz** (same Sony series) and the
+**Precht audiobook**, which is not in the music catalogue.
+
+Two matches are the deluxe edition where the plain one is not on Spotify
+(Justin Timberlake, Ed Sheeran's *x*), and Eagles' *Hotel California* resolves
+to the 2013 remaster. `Country's Greatest Hits` matched a compilation of the
+same name, which may not be the same box set as the disc on the shelf — it is
+the one place where a title matched but the release may not.
+
+## Creating the playlist
+
+The scripts above use the Client Credentials flow, which can read the whole
+catalogue but cannot touch an account. Writing a playlist needs a user token,
+so it takes one approval from you:
+
+1. In the Spotify developer dashboard for this app, add the redirect URI
+   `http://127.0.0.1:8888/callback`.
+2. Run it, approve in the browser that opens:
+
+```bash
+python3 create_playlist.py --name "Ultimate Playlist"
+python3 create_playlist.py --dry-run      # see what it would add first
+```
+
+Without that, `playlist_uris.txt` can be pasted straight into a Spotify client.
 
 ## Finishing the list
 
