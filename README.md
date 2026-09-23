@@ -4,12 +4,16 @@ A CD shelf, transcribed from a photo taken 2026-09-22, resolved against the
 Spotify catalogue, and browsable as a web app.
 
 **[Browse the shelf →](https://jeanclawd.github.io/ultimate-playlist/)**
-(once GitHub Pages is switched on — see *Serving the app* below)
 
-The photo shows three rows of jewel cases seen edge-on. **44 albums are
-identified**, 7 more are known by artist alone, and roughly 16 spines are still
-unread. The top row was supplied by the shelf's owner after the photo proved too
-low-resolution to read; everything else was read from the image.
+The photo shows three rows of jewel cases seen edge-on, **70 discs** in all.
+**60 albums are identified**, 5 more are known by artist alone, and 5 spines are
+still unread. Rows 1 and 2 were dictated by the shelf's owner after the
+photograph proved too coarse to read; row 3 and the rest were read from the
+image.
+
+Physical occupancy is uneven and worth knowing: row 1 holds 16 discs, row 2
+holds 29, row 3 holds 25. The top row stops early to make room for the books
+leaning on it.
 
 ## Files
 
@@ -69,46 +73,63 @@ client_secret=...
 | 24 | Bob Dylan | Highway 61 Revisited |
 | 25 | Eminem | The Eminem Show |
 | 26 | Phil Collins | …Hits |
+| 27 | Joshua Radin | The Rock and the Tide |
+| 28 | Phil Collins | Testify |
+| 29 | Queen | Greatest Hits III |
+| 30 | Coldplay | Parachutes |
+| 31 | De Palmas | Sortir |
+| 32 | Jamie Cullum | Catching Tales |
+| 33 | Rihanna | Good Girl Gone Bad |
+| 34 | Rihanna | Unapologetic |
+| 35 | Shawn Mendes | Shawn Mendes |
+| 36 | James Blunt | Some Kind of Trouble |
+| 37 | James Blunt | All the Lost Souls |
+| 38 | Eminem | The Marshall Mathers LP |
+| 39 | The xx | Coexist |
+| 40 | Journey | Don't Stop Believin': The Best of Journey |
+| 41 | Olly Murs | Right Place Right Time |
+| 42 | John Denver | The Best of John Denver |
 
-Known only by artist: **The Doors** (Elektra release), a second **James Blunt**,
-a second **Eminem**, **The Beatles**, **Run-D.M.C.** One case shows only the
-catalogue number `759P-74007-2`, and about 10 more are unreadable.
+Known only by artist: **The Doors** (Elektra release), **The Beatles**, and
+**Run-D.M.C.** — the last of which did not appear in the owner's own list of the
+row, so it may have been misread from the photograph.
 
 ## Row 3 — bottom row
 
 | # | Artist | Album |
 |---|---|---|
-| 27 | Ed Sheeran | + (Plus) |
-| 28 | Ed Sheeran | x (Multiply) |
-| 29 | Coldplay | Live 2003 |
-| 30 | Jack Johnson | Sleep Through the Static |
-| 31 | Jack Johnson | On and On |
-| 32 | Bob Dylan | The Times They Are A-Changin' |
-| 33 | David Bowie | ChangesBowie |
-| 34 | Creedence Clearwater Revival | Chronicle |
-| 35 | Eagles | Hotel California |
-| 36 | Pink Floyd | A Foot in the Door — The Best of Pink Floyd |
-| 37 | Simon & Garfunkel | Greatest Hits |
-| 38 | De Palmas | Les Lois de la Nature |
-| 39 | De Palmas | Marcher dans le sable |
-| 40 | Various | Country's Greatest Hits |
-| 41 | Various | The Real… Jazz |
-| 42 | Bob Dylan | The Real… Bob Dylan |
-| 43 | Alicia Keys | Unplugged |
-| 44 | Richard David Precht | Wer bin ich – und wenn ja, wie viele? |
+| 43 | Ed Sheeran | + (Plus) |
+| 44 | Ed Sheeran | x (Multiply) |
+| 45 | Coldplay | Live 2003 |
+| 46 | Jack Johnson | Sleep Through the Static |
+| 47 | Jack Johnson | On and On |
+| 48 | Bob Dylan | The Times They Are A-Changin' |
+| 49 | David Bowie | ChangesBowie |
+| 50 | Creedence Clearwater Revival | Chronicle |
+| 51 | Eagles | Hotel California |
+| 52 | Pink Floyd | A Foot in the Door — The Best of Pink Floyd |
+| 53 | Simon & Garfunkel | Greatest Hits |
+| 54 | De Palmas | Les Lois de la Nature |
+| 55 | De Palmas | Marcher dans le sable |
+| 56 | Various | Country's Greatest Hits |
+| 57 | Various | The Real… Jazz |
+| 58 | Bob Dylan | The Real… Bob Dylan |
+| 59 | Alicia Keys | Unplugged |
+| 60 | Richard David Precht | Wer bin ich – und wenn ja, wie viele? |
 
-Known only by artist: **Razorlight**, **The Kooks**. About 5 more are unreadable.
+Known only by artist: **Razorlight**, **The Kooks**. Five more are unreadable —
+the only genuine gap left on the shelf.
 
 ## On Spotify
 
 | outcome | albums |
 |---|---|
-| matched | 38 |
-| substituted — the exact release is not on Spotify | 4 |
+| matched | 52 |
+| substituted — the exact release is not on Spotify | 6 |
 | not on Spotify at all | 2 |
-| **expanded into tracks** | **42 albums · 737 tracks · 48h06m** |
+| **expanded into tracks** | **58 albums · 1012 tracks · 65h59m** |
 
-The four substitutions, each checked by hand rather than settled for by the
+The six substitutions, each checked by hand rather than settled for by the
 matcher:
 
 | on the shelf | on Spotify instead | why |
@@ -117,6 +138,8 @@ matcher:
 | Phil Collins — …Hits | The Singles | the 1998 compilation is absent |
 | David Bowie — ChangesBowie | ChangesOneBowie | only the One/Two/Now editions are there |
 | Bob Dylan — The Real… Bob Dylan | The Essential Bob Dylan | the Sony box set is absent |
+| Journey — Don't Stop Believin': The Best of Journey | The Essential Journey | that best-of is absent |
+| John Denver — The Best of John Denver | The Essential John Denver | no album of that name exists there |
 
 Not available in any form: **The Real… Jazz** (same Sony series) and the
 **Precht audiobook**, which is not in the music catalogue.
@@ -170,9 +193,9 @@ python3 build_site_data.py     # both    -> docs/data.json, with cover art
 
 ## Serving the app
 
-GitHub Pages needs to be switched on once, in **Settings → Pages**: source
-`Deploy from a branch`, branch `main`, folder `/docs`. On a free plan the
-repository must be public for Pages to serve.
+Pages is live, served from `main` / `/docs`. Note that on a free plan the
+repository has to be public for Pages to serve at all — a private repo returns
+422 from the Pages API.
 
 Locally, no setup required:
 
@@ -194,8 +217,9 @@ python3 create_playlist.py --dry-run      # see what it would add first
 
 ## Finishing the list
 
-The ~16 unread spines need a closer photo — one per row, square-on, from about
-a metre. Send those and the list gets completed in place.
+Five spines in row 3 are still unread, and three cases in row 2 give an artist
+but no title (The Doors, The Beatles, Run-D.M.C.). A closer photo of the
+right-hand end of row 3 would finish the shelf.
 
 ## How this was made
 

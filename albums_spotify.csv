@@ -3,7 +3,7 @@ row,artist,album,shelf_confidence,spotify_album_id,spotify_uri,spotify_artist,sp
 1,Michael Jackson,Number Ones,high,1jcYwZsN7JEve9xsq9BuUX,spotify:album:1jcYwZsN7JEve9xsq9BuUX,Michael Jackson,Number Ones,2003-11-17,18,1.00,matched
 1,Justin Timberlake,The 20/20 Experience,high,0O82niJ0NpcptYRxogeEZu,spotify:album:0O82niJ0NpcptYRxogeEZu,Justin Timberlake,The 20/20 Experience (Deluxe Version),2013-03-15,12,1.00,matched
 1,Kaiser Chiefs,"Yours Truly, Angry Mob",operator-supplied,3HiASm1Qj7CFwb4VHgsiM4,spotify:album:3HiASm1Qj7CFwb4VHgsiM4,Kaiser Chiefs,"Yours Truly, Angry Mob (Deluxe)",2007-01-01,18,1.00,matched
-1,Bruno Mars,Doo-Wops & Hooligans,operator-supplied,6i0YN36lXSSBWOzLE7Na6c,spotify:album:6i0YN36lXSSBWOzLE7Na6c,Bruno Mars,Doo-Wops & Hooligans (Deluxe),2010-05-11,13,1.00,matched
+1,Bruno Mars,Doo-Wops & Hooligans,operator-supplied,6J84szYCnMfzEcvIcfWMFL,spotify:album:6J84szYCnMfzEcvIcfWMFL,Bruno Mars,Doo-Wops & Hooligans,2010-05-11,12,1.00,matched
 1,Kings of Leon,Youth and Young Manhood,operator-supplied,2137zeBGNgOWP4D96q6qxd,spotify:album:2137zeBGNgOWP4D96q6qxd,Kings of Leon,Youth And Young Manhood,2003-08-19,12,1.00,matched
 1,Selena Gomez,Revival,operator-supplied,3Kbuu2tHsIbplFUkB7a5oE,spotify:album:3Kbuu2tHsIbplFUkB7a5oE,Selena Gomez,Revival (Deluxe),2015-10-09,16,1.00,matched
 1,Queen,Greatest Hits II,operator-supplied,36ezh7pwcktRIhXmL2AFhp,spotify:album:36ezh7pwcktRIhXmL2AFhp,Queen,Greatest Hits II,1991-10-28,17,1.00,matched
@@ -26,12 +26,24 @@ row,artist,album,shelf_confidence,spotify_album_id,spotify_uri,spotify_artist,sp
 2,The Doors,,artist-only,,,,,,,,artist only — needs a closer photo
 2,Eminem,The Eminem Show,high,2cWBwpqMsDJC1ZUwz813lo,spotify:album:2cWBwpqMsDJC1ZUwz813lo,Eminem,The Eminem Show,2002-05-26,20,1.00,matched
 2,Phil Collins,...Hits,high,5HgotyRoL2KtJElB8fBToi,spotify:album:5HgotyRoL2KtJElB8fBToi,Phil Collins,The Singles,2016-10-14,33,1.00,substitute — 1998 compilation absent from the FR catalogue
-2,James Blunt,,artist-only,,,,,,,,artist only — needs a closer photo
-2,Eminem,,artist-only,,,,,,,,artist only — needs a closer photo
 2,The Beatles,,artist-only,,,,,,,,artist only — needs a closer photo
 2,Run-D.M.C.,,artist-only,,,,,,,,artist only — needs a closer photo
-2,,,unreadable,,,,,,,,unreadable spine
-2,,,unreadable,,,,,,,,unreadable spine
+2,Joshua Radin,The Rock and the Tide,operator-supplied,6lgszu5njyMxcKEweF0eWa,spotify:album:6lgszu5njyMxcKEweF0eWa,Joshua Radin,The Rock and the Tide,2010-10-15,12,1.00,matched
+2,Phil Collins,Testify,operator-supplied,5Tby0U5VndHW0SomYO7Id7,spotify:album:5Tby0U5VndHW0SomYO7Id7,Phil Collins,Testify (Deluxe Edition),2002-11-11,22,1.00,matched
+2,Queen,Greatest Hits III,operator-supplied,5VeFHJvFbfmrigIKFqGa1e,spotify:album:5VeFHJvFbfmrigIKFqGa1e,Queen,Greatest Hits III,1999-11-09,17,1.00,matched
+2,Coldplay,Parachutes,operator-supplied,6ZG5lRT77aJ3btmArcykra,spotify:album:6ZG5lRT77aJ3btmArcykra,Coldplay,Parachutes,2000-07-10,10,1.00,matched
+2,De Palmas,Sortir,operator-supplied,1ClL0XX3hu3DfmLepnbO5z,spotify:album:1ClL0XX3hu3DfmLepnbO5z,De Palmas,Sortir,2009-01-01,11,1.00,matched
+2,Jamie Cullum,Catching Tales,operator-supplied,1QP3oxvk5vSyubgBWwJCTe,spotify:album:1QP3oxvk5vSyubgBWwJCTe,Jamie Cullum,Catching Tales,2005-01-01,15,1.00,matched
+2,Rihanna,Good Girl Gone Bad,operator-supplied,3JSWZWeTHF4HDGt5Eozdy7,spotify:album:3JSWZWeTHF4HDGt5Eozdy7,Rihanna,Good Girl Gone Bad: Reloaded,2008-06-02,15,0.93,matched
+2,Rihanna,Unapologetic,operator-supplied,4XBfFj0WYyh5mBtU61EdyY,spotify:album:4XBfFj0WYyh5mBtU61EdyY,Rihanna,Unapologetic,2012-12-11,14,1.00,matched
+2,Shawn Mendes,Shawn Mendes,operator-supplied,2VP96XdMOKTXefI8Nui23s,spotify:album:2VP96XdMOKTXefI8Nui23s,Shawn Mendes,Shawn Mendes,2018-05-25,14,1.00,matched
+2,James Blunt,Some Kind of Trouble,operator-supplied,5b6T7m3DbNlWTwnaiuic2W,spotify:album:5b6T7m3DbNlWTwnaiuic2W,James Blunt,Some Kind of Trouble (Deluxe Edition),2010-10-24,14,1.00,matched
+2,James Blunt,All the Lost Souls,operator-supplied,3obQJSWpREwvi19TTAvM5v,spotify:album:3obQJSWpREwvi19TTAvM5v,James Blunt,All the Lost Souls,2007-09-05,11,1.00,matched
+2,Eminem,The Marshall Mathers LP,operator-supplied,6t7956yu5zYf5A829XRiHC,spotify:album:6t7956yu5zYf5A829XRiHC,Eminem,The Marshall Mathers LP,2000-05-23,18,1.00,matched
+2,The xx,Coexist,operator-supplied,4SXTQ305LjMh2DBHA3CXIW,spotify:album:4SXTQ305LjMh2DBHA3CXIW,The xx,Coexist,2012-09-10,11,1.00,matched
+2,Journey,Don't Stop Believin': The Best of Journey,operator-supplied,5pfpXvoJtSIFrbPIoBEv3R,spotify:album:5pfpXvoJtSIFrbPIoBEv3R,Journey,The Essential Journey,2001-10-16,32,1.00,substitute — this best-of is absent; the catalogue has The Essential Journey
+2,Olly Murs,Right Place Right Time,operator-supplied,5kU9rWhYr4MmPmaGYP5z4v,spotify:album:5kU9rWhYr4MmPmaGYP5z4v,Olly Murs,Right Place Right Time (Expanded Edition),2012-11-26,24,1.00,matched
+2,John Denver,The Best of John Denver,operator-supplied,6v3zs4PYQw1esV7ZtrjZut,spotify:album:6v3zs4PYQw1esV7ZtrjZut,John Denver,The Essential John Denver,2007-02-27,36,1.00,substitute — no album of that name in the catalogue
 3,Razorlight,,artist-only,,,,,,,,artist only — needs a closer photo
 3,Ed Sheeran,+ (Plus),high,02pi98kE0nra0yBqCStzbC,spotify:album:02pi98kE0nra0yBqCStzbC,Ed Sheeran,+,2011-09-09,16,1.00,matched
 3,Ed Sheeran,x (Multiply),high,1xn54DMo2qIqBuMqHtUsFd,spotify:album:1xn54DMo2qIqBuMqHtUsFd,Ed Sheeran,x (Deluxe Edition),2014-06-21,16,1.00,matched

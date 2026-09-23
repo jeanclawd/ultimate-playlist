@@ -23,15 +23,27 @@ row,artist,album,confidence,notes
 2,Bon Jovi,Crush,high,
 2,James Blunt,Moon Landing,medium,"spine reads JAMES BLUNT and MOON"
 2,Bob Dylan,Highway 61 Revisited,high,
-2,The Doors,,artist-only,Elektra release; title not readable
+2,The Doors,,artist-only,Elektra release; title still not given
 2,Eminem,The Eminem Show,high,
 2,Phil Collins,...Hits,high,
-2,James Blunt,,artist-only,second James Blunt case
-2,Eminem,,artist-only,second Eminem case
-2,The Beatles,,artist-only,pink spine
-2,Run-D.M.C.,,artist-only,title not readable
-2,,,unreadable,catalogue number 759P-74007-2 only
-2,,,unreadable,~10 cases
+2,The Beatles,,artist-only,pink spine; title still not given
+2,Run-D.M.C.,,artist-only,title not readable; not in the owner's row-2 list
+2,Joshua Radin,The Rock and the Tide,operator-supplied,
+2,Phil Collins,Testify,operator-supplied,
+2,Queen,Greatest Hits III,operator-supplied,
+2,Coldplay,Parachutes,operator-supplied,
+2,De Palmas,Sortir,operator-supplied,
+2,Jamie Cullum,Catching Tales,operator-supplied,
+2,Rihanna,Good Girl Gone Bad,operator-supplied,
+2,Rihanna,Unapologetic,operator-supplied,
+2,Shawn Mendes,Shawn Mendes,operator-supplied,self-titled
+2,James Blunt,Some Kind of Trouble,operator-supplied,
+2,James Blunt,All the Lost Souls,operator-supplied,
+2,Eminem,The Marshall Mathers LP,operator-supplied,resolves the second Eminem case
+2,The xx,Coexist,operator-supplied,
+2,Journey,Don't Stop Believin': The Best of Journey,operator-supplied,
+2,Olly Murs,Right Place Right Time,operator-supplied,
+2,John Denver,The Best of John Denver,operator-supplied,"owner said ""best of"" without an edition"
 3,Razorlight,,artist-only,no title readable on spine
 3,Ed Sheeran,+ (Plus),high,
 3,Ed Sheeran,x (Multiply),high,

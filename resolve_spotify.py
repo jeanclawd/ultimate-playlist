@@ -88,6 +88,14 @@ NOT_ON_SPOTIFY: dict[tuple[str, str], dict] = {
     ("Richard David Precht", "Wer bin ich - und wenn ja, wie viele?"): {
         "why": "audiobook, not in the music catalogue",
     },
+    ("Journey", "Don't Stop Believin': The Best of Journey"): {
+        "why": "this best-of is absent; the catalogue has The Essential Journey",
+        "substitute": ("Journey", "The Essential Journey"),
+    },
+    ("John Denver", "The Best of John Denver"): {
+        "why": "no album of that name in the catalogue",
+        "substitute": ("John Denver", "The Essential John Denver"),
+    },
 }
 
 
